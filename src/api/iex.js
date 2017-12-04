@@ -15,3 +15,8 @@ export function loadLogo(symbol) {
   return api.get(`/stock/${symbol}/logo`)
     .then(res => res.data)
 }
+
+export function recentNews(symbol,range){
+  return api.get(`/stock/${symbol}/news/last/${range}`)
+  .then(res => res.data)
+}

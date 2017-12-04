@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import StockInfo from './components/StockInfo';
 import StockError from './components/StockError';
+import LoadLogo from './components/LoadLogo';
 import {loadQuoteForStock, loadLogo} from './api/iex';
+
 
 //import company logo for stock
 
@@ -11,7 +13,7 @@ class App extends Component {
     symbol: "",
     logo: null,
     quote: null,
-    error: null
+    error: null,
   }
 
   componentDidMount() {
@@ -59,12 +61,12 @@ class App extends Component {
         placeholder="Enter symbol"
         onChange={this.handleSymbolChange}
       />
+    <button onClick={this.handleRollBack}>Roll Back
+    </button>
     <button onClick={this.handleButtonClick}>Get Quote
     </button>
         <StockError error={this.state.error}/>
-        {/* <LoadLogo logo={this.state.logo}/> */}
-        <img src={this.state.logo}/>
-
+        <LoadLogo logo={this.state.logo}/>
         <StockInfo {...this.state.quote}/>
       </div>
     );
