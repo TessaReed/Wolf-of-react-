@@ -1,30 +1,43 @@
 import React, { Component } from 'react';
 import './App.css';
-import StockInfo from './StockInfo';
-import {loadQuoteForStock, StockError} from './api/iex';
+import StockInfo from './components/StockInfo';
+import StockError from './components/StockError';
+import {loadQuoteForStock, loadLogo} from './api/iex';
 
 //import company logo for stock
 
 class App extends Component {
   state = {
-    symbol: {},
+    symbol: "",
+    logo: null,
     quote: null,
     error: null
   }
 
   componentDidMount() {
-    this.loadQuote()
+    this.loadQuote();
   }
 
   loadQuote() {
     loadQuoteForStock(this.state.symbol)
-    .then((quote) => {
-      this.setState({ quote: quote, error: null})
-    })
-    .catch((err) => { this.setState({
-      error: "not found"
+      .then((quote) => {
+        this.setState({ quote: quote, error: null})
       })
-    })
+      .catch((err) => { this.setState({
+        error: "quote not found"
+        })
+      })
+
+    loadLogo(this.state.symbol)
+      .then((logo) => {
+        console.log("logo is: ", logo);
+        this.setState({ logo: logo.url, error: null})
+      })
+      .catch((err) => { this.setState({
+        error: "logo not found"
+        })
+      })
+
   }
 
   handleSymbolChange = (event) => {
@@ -49,6 +62,9 @@ class App extends Component {
     <button onClick={this.handleButtonClick}>Get Quote
     </button>
         <StockError error={this.state.error}/>
+        {/* <LoadLogo logo={this.state.logo}/> */}
+        <img src={this.state.logo}/>
+
         <StockInfo {...this.state.quote}/>
       </div>
     );
